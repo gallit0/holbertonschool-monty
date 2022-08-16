@@ -16,6 +16,5 @@ void garbage_collector(stack_t **head)
 		free(p);
 
 	}
-	//free(head);
 
 }
