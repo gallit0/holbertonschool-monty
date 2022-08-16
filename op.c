@@ -1,6 +1,9 @@
 #include "monty.h"
-
-
+/**
+ * op_push - push instruction
+ * @stack: head of list
+ * @line_number: int
+ */
 void op_push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *new = NULL;
@@ -19,9 +22,13 @@ void op_push(stack_t **stack, unsigned int line_number)
 		new->next = (*stack);
 		(*stack)->prev = new;
 	}
-	**stack = new;
-	printf("----%p------%p\n", new->next, new);
+	*stack = new;
 }
+/**
+ * op_pall - pall instruction
+ * @stack: head of list
+ * @line_number: int
+ */
 void op_pall(stack_t **stack, unsigned int line_number)
 {
 	stack_t *p = (*stack);
@@ -29,7 +36,6 @@ void op_pall(stack_t **stack, unsigned int line_number)
 	(void)line_number;
 	for (; p ; p = p->next)
 	{
-		printf("--------\n");
 		printf("%d\n", p->n);
 	}
 }

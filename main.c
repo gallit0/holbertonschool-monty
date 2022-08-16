@@ -1,6 +1,12 @@
 #include "monty.h"
-
-int execution(char *cont, unsigned int i, stack_t *head)
+/**
+ * execution - chooses what to do with input
+ * @cont: string
+ * @i: int
+ * @head: linked list
+ * Return: int
+ */
+int execution(char *cont, unsigned int i, stack_t **head)
 {
 	char *current = 0;
 	char *word = 0;
@@ -24,7 +30,7 @@ int execution(char *cont, unsigned int i, stack_t *head)
 			{
 				n = atoi(word);
 			}
-			inst[j].f(&head , n);
+			inst[j].f(head, n);
 			return (0);
 		}
 	}
@@ -32,7 +38,12 @@ int execution(char *cont, unsigned int i, stack_t *head)
 	dprintf(STDERR_FILENO, "L%d: unknown instruction %s", i, word);
 	exit(1);
 }
-
+/**
+ * main - main function
+ * @ac: argument counter
+ * @av: arguments
+ * Return: 0 on success
+ */
 int main(int ac, char **av)
 {
 	FILE *o;
@@ -56,7 +67,7 @@ int main(int ac, char **av)
 	{
 		cont = strtok(cont, "\n");
 		i++;
-		if (1 == execution(cont, i, head))
+		if (execution(cont, i, &head) == 1)
 			return (1);
 	}
 	fclose(o);
