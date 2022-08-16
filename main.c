@@ -1,4 +1,19 @@
 #include "monty.h"
+
+int _isdigit(char *str)
+{
+	int i;
+
+	if (!str)
+		return (0);
+	for (i = 0; str[i]; i++)
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+	}
+	return (1);
+}
+
 /**
  * execution - chooses what to do with input
  * @cont: string
@@ -26,7 +41,7 @@ int execution(char *cont, unsigned int i, stack_t **head)
 		if (strcmp(inst[j].opcode, word) == 0)
 		{
 			word = strtok(NULL, " \t$");
-			if (word)
+			if (_isdigit(word))
 			{
 				n = atoi(word);
 			}
@@ -65,11 +80,16 @@ int main(int ac, char **av)
 	}
 	while (getline(&cont, &len, o) != -1)
 	{
-		cont = strtok(cont, "\n");
 		i++;
+		if (cont[0] == '\n')
+			continue;
+		cont = strtok(cont, "\n");
 		if (execution(cont, i, &head) == 1)
 			return (1);
 	}
 	fclose(o);
+	garbage_collector(&head);
+	if (head)
+		free(head);
 	return (0);
 }
