@@ -46,13 +46,16 @@ int execution(char *cont, unsigned int i, stack_t **head)
 				n = atoi(word);
 			}
 			inst[j].f(head, n);
+			free(current);
 			return (0);
 		}
 	}
+	free(current);
+
 	if (j == 2)
 	{
-		dprintf(STDERR_FILENO, "L%d: unknown instruction %s", i, word);
-		exit(1);
+		dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n", i, word);
+		return (1);
 	}
 	return (0);
 }
@@ -64,7 +67,7 @@ int execution(char *cont, unsigned int i, stack_t **head)
  */
 int main(int ac, char **av)
 {
-	FILE *o;
+	FILE *o = 0;
 	unsigned int i = 0;
 	char *cont = 0;
 	size_t len = 0;
@@ -86,15 +89,18 @@ int main(int ac, char **av)
 		i++;
 		if (cont[0] != '\n')
 		{
-		
 			cont = strtok(cont, "\n");
 			if (execution(cont, i, &head) == 1)
+			{
+				fclose(o);
+				free(cont);
+				garbage_collector(&head);
 				return (1);
+			}
 		}
 	}
+	free(cont);
 	fclose(o);
 	garbage_collector(&head);
-	if (head)
-		free(head);
 	return (0);
 }
