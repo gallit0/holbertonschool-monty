@@ -45,7 +45,6 @@ int execution(char *cont, unsigned int i, stack_t **head)
 		if (strcmp(inst[j].opcode, word) == 0)
 		{
 			word = strtok(NULL, " \t$");
-			free(current);
 			if (strcmp(inst[j].opcode, "push") == 0)
 			{
 				if (_isdigit(word))
