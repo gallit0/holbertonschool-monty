@@ -2,7 +2,7 @@
 /**
  * _isdigit - checks if a string is a number
  * @str: string
- * @Return: int
+ * Return: int
  */
 int _isdigit(char *str)
 {
@@ -53,19 +53,21 @@ int execution(char *cont, unsigned int i, stack_t **head)
 				else
 				{
 					dprintf(STDERR_FILENO, "L4: usage: push integer\n");
+					free(current);
 					return (1);
 				}
 			}
 			inst[j].f(head, n);
+			free(current);
 			return (0);
 		}
 	}
-	free(current);
 	if (j == 2)
 	{
 		dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n", i, word);
 		return (1);
 	}
+	free(current);
 	return (0);
 }
 /**
