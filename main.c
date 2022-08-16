@@ -36,7 +36,7 @@ int execution(char *cont, unsigned int i, stack_t **head)
 		return (1);
 	current = strdup(cont);
 	word = strtok(current, " \t$");
-	for (j = 0; j < 2; j++)
+	for (j = 0; j < 2 && word; j++)
 	{
 		if (strcmp(inst[j].opcode, word) == 0)
 		{
@@ -49,9 +49,12 @@ int execution(char *cont, unsigned int i, stack_t **head)
 			return (0);
 		}
 	}
-
-	dprintf(STDERR_FILENO, "L%d: unknown instruction %s", i, word);
-	exit(1);
+	if (j == 2)
+	{
+		dprintf(STDERR_FILENO, "L%d: unknown instruction %s", i, word);
+		exit(1);
+	}
+	return (0);
 }
 /**
  * main - main function
@@ -81,11 +84,13 @@ int main(int ac, char **av)
 	while (getline(&cont, &len, o) != -1)
 	{
 		i++;
-		if (cont[0] == '\n')
-			continue;
-		cont = strtok(cont, "\n");
-		if (execution(cont, i, &head) == 1)
-			return (1);
+		if (cont[0] != '\n')
+		{
+		
+			cont = strtok(cont, "\n");
+			if (execution(cont, i, &head) == 1)
+				return (1);
+		}
 	}
 	fclose(o);
 	garbage_collector(&head);
