@@ -1,10 +1,10 @@
 #include "monty.h"
 
-int execution(char *cont, unsigned int i, stack_t **head)
+int execution(char *cont, unsigned int i, stack_t *head)
 {
-	char *current;
-	char *word;
-	int j, n;
+	char *current = 0;
+	char *word = 0;
+	int j, n = 0;
 	instruction_t inst[] = {
 		{"push", op_push},
 		{"pall", op_pall},
@@ -12,7 +12,7 @@ int execution(char *cont, unsigned int i, stack_t **head)
 	};
 
 	if (!cont)
-		return (0);
+		return (1);
 	current = strdup(cont);
 	word = strtok(current, " \t$");
 	for (j = 0; j < 2; j++)
@@ -20,16 +20,11 @@ int execution(char *cont, unsigned int i, stack_t **head)
 		if (strcmp(inst[j].opcode, word) == 0)
 		{
 			word = strtok(NULL, " \t$");
-			printf("befpre isdigit: %s\n", word);
-			/*if (isdigit(word) == 0)
+			if (word)
 			{
-				dprintf(STDERR_FILENO, "L%u: usage: push integer\n", i);
-				exit(1);
-			}*/
-			printf("before atoi\n");
-			n = atoi(word);
-			printf("%d\n", n);
-			inst[j].f(head , n);
+				n = atoi(word);
+			}
+			inst[j].f(&head , n);
 			return (0);
 		}
 	}
@@ -44,7 +39,7 @@ int main(int ac, char **av)
 	unsigned int i = 0;
 	char *cont = 0;
 	size_t len = 0;
-	stack_t **head;
+	stack_t *head = 0;
 
 	if (ac != 2)
 	{

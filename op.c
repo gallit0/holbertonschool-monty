@@ -3,7 +3,7 @@
 
 void op_push(stack_t **stack, unsigned int line_number)
 {
-	stack_t *new, *temp;
+	stack_t *new = NULL;
 
 	new = malloc(sizeof(stack_t));
 	if (!new)
@@ -12,25 +12,24 @@ void op_push(stack_t **stack, unsigned int line_number)
 		exit(1);
 	}
 	new->n = (int)line_number;
-	new->next = (*stack);
+	new->next = NULL;
 	new->prev = NULL;
-	(*stack) = new;
-
-	if (new->next != NULL)
+	if ((*stack) != NULL)
 	{
-		temp = new;
-		new = new->next;
-		new->prev = temp;
+		new->next = (*stack);
+		(*stack)->prev = new;
 	}
+	**stack = new;
+	printf("----%p------%p\n", new->next, new);
 }
 void op_pall(stack_t **stack, unsigned int line_number)
 {
 	stack_t *p = (*stack);
 
 	(void)line_number;
-	while (p)
+	for (; p ; p = p->next)
 	{
+		printf("--------\n");
 		printf("%d\n", p->n);
-		p = p->next;
 	}
 }
