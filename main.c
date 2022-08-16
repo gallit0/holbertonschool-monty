@@ -10,7 +10,7 @@ int _isdigit(char *str)
 
 	if (!str)
 		return (0);
-	if(str[0] == '-')
+	if (str[0] == '-')
 		i = 1;
 	for (; str[i]; i++)
 	{
@@ -35,6 +35,7 @@ int execution(char *cont, unsigned int i, stack_t **head)
 	instruction_t inst[] = {
 		{"push", op_push},
 		{"pall", op_pall},
+		{"pint", op_pint},
 		{NULL, NULL},
 	};
 
@@ -42,7 +43,7 @@ int execution(char *cont, unsigned int i, stack_t **head)
 		return (1);
 	current = strdup(cont);
 	word = strtok(current, " \t$");
-	for (j = 0; j < 2 && word; j++)
+	for (j = 0; j < 3 && word; j++)
 	{
 		if (strcmp(inst[j].opcode, word) == 0)
 		{
@@ -58,12 +59,20 @@ int execution(char *cont, unsigned int i, stack_t **head)
 					return (1);
 				}
 			}
-			inst[j].f(head, n);
+			if (strcmp(inst[j].opcode, "pint") == 0)
+			{
+				if (!(*head))
+				{
+					dprintf(STDERR_FILENO, "L%d: can't pint, stack empty\n", i);
+					free(current);
+				}
+			}
 			free(current);
+			inst[j].f(head, n);
 			return (0);
 		}
 	}
-	if (j == 2)
+	if (j == 3)
 	{
 		dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n", i, word);
 		return (1);
