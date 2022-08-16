@@ -1,5 +1,4 @@
-push 34
 push 1
-		
-pall
-asdfasdf
+push     2
+
+push 

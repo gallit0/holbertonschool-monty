@@ -1,5 +1,9 @@
 #include "monty.h"
-
+/**
+ * _isdigit - checks if a string is a number
+ * @str: string
+ * @Return: int
+ */
 int _isdigit(char *str)
 {
 	int i;
@@ -41,17 +45,22 @@ int execution(char *cont, unsigned int i, stack_t **head)
 		if (strcmp(inst[j].opcode, word) == 0)
 		{
 			word = strtok(NULL, " \t$");
-			if (_isdigit(word))
+			free(current);
+			if (strcmp(inst[j].opcode, "push") == 0)
 			{
-				n = atoi(word);
+				if (_isdigit(word))
+					n = atoi(word);
+				else
+				{
+					dprintf(STDERR_FILENO, "L4: usage: push integer\n");
+					return (1);
+				}
 			}
 			inst[j].f(head, n);
-			free(current);
 			return (0);
 		}
 	}
 	free(current);
-
 	if (j == 2)
 	{
 		dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n", i, word);

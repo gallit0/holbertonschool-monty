@@ -35,7 +35,5 @@ void op_pall(stack_t **stack, unsigned int line_number)
 
 	(void)line_number;
 	for (; p ; p = p->next)
-	{
 		printf("%d\n", p->n);
-	}
 }
