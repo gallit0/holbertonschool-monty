@@ -51,7 +51,7 @@ int execution(char *cont, unsigned int i, stack_t **head)
 					n = atoi(word);
 				else
 				{
-					dprintf(STDERR_FILENO, "L%d: usage: push integer\n");
+					dprintf(STDERR_FILENO, "L%d: usage: push integer\n", i);
 					free(current);
 					return (1);
 				}
