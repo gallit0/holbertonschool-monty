@@ -64,6 +64,7 @@ int execution(char *cont, unsigned int i, stack_t **head)
 				if (!(*head))
 				{
 					dprintf(STDERR_FILENO, "L%d: can't pint, stack empty\n", i);
+					free(current);
 					return (1);
 				}
 			}
