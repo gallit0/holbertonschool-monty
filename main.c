@@ -60,7 +60,7 @@ int execution(char *cont, unsigned int i, stack_t **head)
 					return (1);
 				}
 			}
-			if (strcmp(inst[j].opcode, "pint") == 0)
+			if (strcmp(inst[j].opcode, "pint") == 0 && !(*head))
 			{
 				dprintf(STDERR_FILENO, "L%d: can't pint, stack empty\n", i);
 				free(current);
