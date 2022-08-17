@@ -60,3 +60,15 @@ void op_pop(stack_t **stack, unsigned int line_number)
 	(*stack) = (*stack)->next;
 	free(p);
 }
+
+void op_swap(stack_t **stack, unsigned int line_number)
+{
+	unsigned int temp = 0;
+	stack_t *p = (*stack);
+	(void)line_number;
+
+	p = p->next;
+	temp = (*stack)->n;
+	(*stack)->n = p->n;
+	p->n = temp;
+}

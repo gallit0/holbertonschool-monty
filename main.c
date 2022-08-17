@@ -37,6 +37,7 @@ int execution(char *cont, unsigned int i, stack_t **head)
 		{"pall", op_pall},
 		{"pint", op_pint},
 		{"pop", op_pop},
+		{"swap", op_swap},
 		{NULL, NULL},
 	};
 
@@ -72,7 +73,12 @@ int execution(char *cont, unsigned int i, stack_t **head)
 				free(current);
 				return (1);
 			}
-
+			if (strcmp(inst[j].opcode, "swap") == 0 && (!(*head) || !((*head)->next)))
+			{
+				dprintf(STDERR_FILENO, "L%d: can't swap, stack too short\n", i);
+				free(current);
+				return (1);
+			}
 			free(current);
 			inst[j].f(head, n);
 			return (0);
