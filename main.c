@@ -36,6 +36,7 @@ int execution(char *cont, unsigned int i, stack_t **head)
 		{"push", op_push},
 		{"pall", op_pall},
 		{"pint", op_pint},
+		{"pop", op_pop},
 		{NULL, NULL},
 	};
 
@@ -43,7 +44,7 @@ int execution(char *cont, unsigned int i, stack_t **head)
 		return (1);
 	current = strdup(cont);
 	word = strtok(current, " \t$");
-	for (j = 0; j < 3 && word; j++)
+	for (j = 0; inst[j].opcode  && word; j++)
 	{
 		if (strcmp(inst[j].opcode, word) == 0)
 		{
@@ -61,19 +62,23 @@ int execution(char *cont, unsigned int i, stack_t **head)
 			}
 			if (strcmp(inst[j].opcode, "pint") == 0)
 			{
-				if (!(*head))
-				{
-					dprintf(STDERR_FILENO, "L%d: can't pint, stack empty\n", i);
-					free(current);
-					return (1);
-				}
+				dprintf(STDERR_FILENO, "L%d: can't pint, stack empty\n", i);
+				free(current);
+				return (1);
 			}
+			if (strcmp(inst[j].opcode, "pop") == 0 && !(*head))
+			{
+				dprintf(STDERR_FILENO, "L%d: can't pop an empty stack\n", i);
+				free(current);
+				return (1);
+			}
+
 			free(current);
 			inst[j].f(head, n);
 			return (0);
 		}
 	}
-	if (j == 3)
+	if (!(inst[j].opcode))
 	{
 		dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n", i, word);
 		return (1);

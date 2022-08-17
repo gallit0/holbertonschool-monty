@@ -47,3 +47,16 @@ void op_pint(stack_t **stack, unsigned int line_number)
 	(void)line_number;
 	printf("%i\n", (*stack)->n);
 }
+/**
+ * op_pop - pops element at top
+ * @stack: head of list
+ * @line_number: int
+ */
+void op_pop(stack_t **stack, unsigned int line_number)
+{
+	stack_t *p = (*stack);
+	(void)line_number;
+
+	(*stack) = (*stack)->next;
+	free(p);
+}
