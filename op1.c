@@ -16,3 +16,13 @@ void op_add(stack_t **stack, unsigned int line_number)
 	(*stack)->prev = NULL;
 	free(p);
 }
+/**
+ * op_nop - does nothing
+ * @stack: head of list
+ * @line_number: int
+ */
+void op_nop(stack_t **stack, unsigned int line_number)
+{
+	(void)stack;
+	(void)line_number;
+}
