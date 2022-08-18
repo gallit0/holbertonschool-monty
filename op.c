@@ -60,7 +60,11 @@ void op_pop(stack_t **stack, unsigned int line_number)
 	(*stack) = (*stack)->next;
 	free(p);
 }
-
+/**
+ * op_swap - swaps last elements at top
+ * @stack: head of list
+ * @line_number: int
+ */
 void op_swap(stack_t **stack, unsigned int line_number)
 {
 	unsigned int temp = 0;
